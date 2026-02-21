@@ -1,73 +1,165 @@
-# 🎓 EduTrack Pro - Student Management System
+# Student Management System (MVC)
 
-EduTrack Pro is a modern, full-stack Student Management System built with the **MVC (Model-View-Controller)** architecture. It features a stunning **Glassmorphism UI**, real-time search, and administrative analytics to make student data management effortless and beautiful.
+A full-stack Student Management System built using **Node.js, Express, MongoDB, and EJS** following the **MVC (Model-View-Controller)** architecture.
 
-![EduTrack Pro UI](https://img.shields.io/badge/UI-Glassmorphism-blueviolet)
-![Node.js](https://img.shields.io/badge/Backend-Node.js-green)
-![MongoDB](https://img.shields.io/badge/Database-MongoDB-darkgreen)
-![Express](https://img.shields.io/badge/Framework-Express-lightgrey)
+## Features
 
----
-
-## ✨ Features
-
-### 🛠️ Core Functionality (CRUD)
-- **Register Students**: Quickly add new students with names, emails, and courses.
-- **Dynamic Directory**: View a full list of enrolled students.
-- **Profiles & Updates**: Edit student information at any time.
-- **Secure Deletion**: Remove records with a confirmation safety check.
-
-### 📊 Advanced Tools
-- **Stats Dashboard**: Real-time tracking of total students, active courses, and registrations made today.
-- **Real-time Search**: Instant filtering by name, email, or course as you type—no page reloads.
-- **CSV Export**: Download your entire student directory as a CSV file for backups or reporting.
-
-### 🎨 Premium Design
-- **Glassmorphism Aesthetic**: A sleek, dark-themed interface with frosted glass effects and vibrant accents.
-- **Smart Avatars**: Automatically generated initials for every student profile.
-- **Fully Responsive**: Optimized for desktops, tablets, and mobile devices.
+- Add new students  
+- View all students  
+- Edit student details  
+- Delete students  
+- Server-side validation using express-validator  
+- RESTful routing  
+- Clean Bootstrap 5 UI  
+- MongoDB Atlas cloud database  
+- Deployed on Vercel  
 
 ---
 
-## 🚀 Tech Stack
+## Project Architecture (MVC)
 
-- **Frontend**: EJS (Templating), Vanilla CSS (Custom Design System), Font Awesome.
-- **Backend**: Node.js, Express.js.
-- **Database**: MongoDB with Mongoose.
-- **Architecture**: Model-View-Controller (MVC).
-- **Middleware**: `express-validator`, `method-override`, `dotenv`.
+This project follows the MVC pattern to ensure separation of concerns:
+
+```
+student-management-system/
+│
+├── models/          → Database schema (Student model)
+├── views/           → EJS templates (UI layer)
+├── controllers/     → Business logic
+├── routes/          → RESTful routes
+├── middleware/      → Validation middleware
+├── public/          → Static assets
+├── api/             → Vercel serverless entry
+├── app.js           → Main Express app
+├── vercel.json      → Deployment configuration
+├── package.json
+└── .env             → Environment variables (not pushed)
+```
 
 ---
 
-## 🛠️ Installation & Setup
+## Tech Stack
 
-1.  **Clone the repository**:
-    ```bash
-    git clone https://github.com/Pritesh23-P/24BDA70006-5b-Pritesh-Kumar-Pandey.git
-    cd 24BDA70006-5b-Pritesh-Kumar-Pandey
-    ```
+- Node.js  
+- Express.js  
+- MongoDB Atlas  
+- Mongoose  
+- EJS  
+- Bootstrap 5  
+- express-validator  
+- method-override  
+- Vercel  
 
-2.  **Install dependencies**:
-    ```bash
-    npm install
-    ```
+---
 
-3.  **Environment Variables**:
-    Create a `.env` file in the root directory and add the following:
-    ```env
-    PORT=3000
-    MONGO_URI=mongodb://127.0.0.1:27017/studentDB
-    ```
+## RESTful Routes
 
-4.  **Run the application**:
-    ```bash
-    # Development mode (with nodemon)
-    npm run dev
+| Method | Route | Description |
+|--------|--------|-------------|
+| GET | / | Get all students |
+| GET | /add | Show add student form |
+| POST | /add | Create student |
+| GET | /edit/:id | Show edit form |
+| PUT | /edit/:id | Update student |
+| DELETE | /delete/:id | Delete student |
 
-    # Production mode
-    npm start
-    ```
+---
 
-5.  **Access the app**:
-    Open [http://localhost:3000](http://localhost:3000) in your browser.
+## Installation (Run Locally)
 
+### Clone Repository
+
+```bash
+git clone https://github.com/your-username/your-repo-name.git
+cd your-repo-name
+```
+
+### Install Dependencies
+
+```bash
+npm install
+```
+
+### Create `.env` File
+
+Create a `.env` file in the root folder:
+
+```env
+PORT=3000
+MONGO_URI=your_mongodb_atlas_connection_string
+```
+
+⚠ Do NOT hardcode the database URI inside the source code.
+
+### Run Application
+
+```bash
+npm run dev
+```
+
+Open in browser:
+
+```
+http://localhost:3000
+```
+
+---
+
+## Deployment (Vercel)
+
+This project is deployed using **Vercel Serverless Functions**.
+
+Environment variable required in Vercel:
+
+```
+MONGO_URI = MongoDB Atlas connection string
+```
+
+Deployment configuration:
+
+```json
+{
+  "version": 2,
+  "builds": [
+    { "src": "api/index.js", "use": "@vercel/node" }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "api/index.js" }
+  ]
+}
+```
+
+---
+
+## Environment Variables
+
+Sensitive credentials such as database URIs are stored using environment variables.
+
+This improves:
+- Security
+- Scalability
+- Maintainability
+
+Hardcoding credentials inside source code is avoided.
+
+---
+
+## Learning Outcomes
+
+- Understanding MVC architecture  
+- Implementing RESTful routing  
+- Using middleware in Express  
+- Server-side validation  
+- Connecting Node.js with MongoDB Atlas  
+- Deploying full-stack applications  
+- Managing environment variables securely  
+
+---
+
+## Future Improvements
+
+- Authentication system (Login/Register)
+- Search & filtering
+- Dashboard analytics
+- Pagination
+- Role-based access control
