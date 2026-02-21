@@ -20,26 +20,6 @@ It is structured using MVC architecture to maintain separation of concerns and i
 - MongoDB Atlas cloud database
 - Deployed on Vercel
 
-
-## Project Structure
-
-```
-student-management-system/
-│
-├── models/
-├── views/
-├── controllers/
-├── routes/
-├── middleware/
-├── public/
-├── api/
-├── app.js
-├── vercel.json
-├── package.json
-└── .env
-```
-
-
 ## Technology Stack
 
 - Node.js
