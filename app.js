@@ -1,29 +1,34 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
+const path = require('path');
 require('dotenv').config();
 
 const app = express();
-const path = require('path');
+
+/* -------------------- View Engine Setup -------------------- */
 app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
 /* -------------------- Middleware -------------------- */
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride('_method'));
-app.use(express.static('public'));
-app.set('view engine', 'ejs');
+app.use(express.static(path.join(__dirname, 'public')));
 
 /* -------------------- MongoDB Connection -------------------- */
+let isConnected = false;
+
 const connectDB = async () => {
+    if (isConnected) return;
+
     try {
-        if (mongoose.connection.readyState === 0) {
-            await mongoose.connect(process.env.MONGO_URI);
-            console.log("MongoDB Connected Successfully");
-        }
+        const db = await mongoose.connect(process.env.MONGO_URI);
+        isConnected = db.connections[0].readyState;
+        console.log("MongoDB Connected Successfully");
     } catch (error) {
-        console.error("MongoDB Connection Failed:", error.message);
-        process.exit(1);
+        console.error("MongoDB Connection Failed:", error);
+        throw error;
     }
 };
 
@@ -43,8 +48,10 @@ app.use((err, req, res, next) => {
     res.status(500).render('error', { error: err.message });
 });
 
-/* -------------------- Export App -------------------- */
+/* -------------------- Export for Vercel -------------------- */
 module.exports = app;
+
+/* -------------------- Local Server -------------------- */
 if (process.env.NODE_ENV !== 'production') {
     const PORT = 3000;
     app.listen(PORT, () => {
