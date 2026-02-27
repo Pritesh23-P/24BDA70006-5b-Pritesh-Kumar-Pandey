@@ -4,6 +4,8 @@ const methodOverride = require('method-override');
 require('dotenv').config();
 
 const app = express();
+const path = require('path');
+app.set('views', path.join(__dirname, 'views'));
 
 /* -------------------- Middleware -------------------- */
 app.use(express.urlencoded({ extended: true }));
