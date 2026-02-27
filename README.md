@@ -75,6 +75,7 @@ GET     /edit/:id       Show edit form
 PUT     /edit/:id       Update student  
 DELETE  /delete/:id     Delete student  
 
+![alt text](image.png)
 
 ## Environment Variables
 
