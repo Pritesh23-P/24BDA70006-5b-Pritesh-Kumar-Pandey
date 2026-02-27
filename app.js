@@ -5,27 +5,47 @@ require('dotenv').config();
 
 const app = express();
 
-// Middleware
+/* -------------------- Middleware -------------------- */
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(methodOverride('_method'));
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
-// MongoDB Connection
-mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
-    .then(() => console.log("MongoDB Connected"))
-    .catch(err => console.error("MongoDB Error:", err));
+/* -------------------- MongoDB Connection -------------------- */
+const connectDB = async () => {
+    try {
+        if (mongoose.connection.readyState === 0) {
+            await mongoose.connect(process.env.MONGO_URI);
+            console.log("MongoDB Connected Successfully");
+        }
+    } catch (error) {
+        console.error("MongoDB Connection Failed:", error.message);
+        process.exit(1);
+    }
+};
 
-// Routes
+connectDB();
+
+/* -------------------- Routes -------------------- */
 app.use('/', require('./routes/studentRoutes'));
 
-// Error Handler
+/* -------------------- 404 Handler -------------------- */
+app.use((req, res) => {
+    res.status(404).render('error', { error: "Page Not Found" });
+});
+
+/* -------------------- Global Error Handler -------------------- */
 app.use((err, req, res, next) => {
+    console.error(err.stack);
     res.status(500).render('error', { error: err.message });
 });
 
-// IMPORTANT: Export app instead of listen
+/* -------------------- Export App -------------------- */
 module.exports = app;
+if (process.env.NODE_ENV !== 'production') {
+    const PORT = 3000;
+    app.listen(PORT, () => {
+        console.log(`Server running on http://localhost:${PORT}`);
+    });
+}
